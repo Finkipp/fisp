@@ -1,0 +1,531 @@
+﻿works(maria, day).
+works(sergey, evening).
+works(boris, evening).
+works(valentina, evening).
+
+knows(X, Y) :- works(X, Shift), works(Y, Shift), X \= Y.
+
+/*
+result
+Welcome to SWI-Prolog (threaded, 64 bits, version 9.3.13) SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software. Please run ?- license. for legal details.  For online help and background, visit https://www.swi-prolog.org For built-in help, use ?- help(Topic). or ?- apropos(Word).   % /home/filipp/Documents/pz-3-8.pl compiled 0.00 sec, 5 clauses ?- knows(sergey, boris). true.  ?- knows(valentina, X). X = sergey ; X = boris ; false.  ?- knows(maria, X). false.
+*/
+grade(bobrov,5,3,2).
+grade(vyatkin,5,5,5).
+grade(krotov,2,3,3).
+grade(sosnin,4,4,4).
+grade(vavilov,4,2,1).
+
+% правила
+excellent_student(X) :-
+grade(X, 5, 5, 5).
+
+dropout(X) :-
+grade(X, 2, _, _).
+
+mathematician(X) :-
+grade(X, Grade1, Grade2, _),
+(Grade1 = 4; Grade1 = 5),
+(Grade2 = 4; Grade2 = 5).
+
+% сказуемые
+algebra(X, Y) :- grade(X, Y, _, _).
+geometry(X, Y) :- grade(X, _, Y, _).
+history(X, Y) :- grade(X, _, _, Y).
+
+/*result
+?- excellent_student(vyatkin).
+true.
+
+?- findall(Name, excellent_student(Name), ExcellentStudents).
+ExcellentStudents = [vyatkin].
+
+?- mathematician(sosnin).
+true .
+
+?- findall(Name, dropout(Name), FailingHistoryStudents).
+FailingHistoryStudents = [krotov].
+
+?- algebra(bobrov, Grade).
+Grade = 5.
+
+?- history(Name, 2).
+Name = bobrov.
+
+?- findall(Name, dropout(Name), StudentsWithTwos).
+StudentsWithTwos = [krotov].
+*/
+plays(martynka, violin).
+plays(osel, viola).
+plays(kozel, cello).
+plays(mishka, double_bass).
+
+% правила
+quartet(X, Y, Z, W) :-
+plays(X, violin),
+plays(Y, viola),
+plays(Z, cello),
+plays(W, double_bass).
+
+% музыканты которые могут составить квартет
+quartet_members(Members) :-
+findall(M, plays(M, _), Musicians),
+findall(Q, (member(X, Musicians), member(Y, Musicians), member(Z, Musicians), member(W, Musicians),
+X \= Y, X \= Z, X \= W, Y \= Z, Y \= W, Z \= W,
+quartet(X, Y, Z, W)), Members).
+
+/*result
+?- plays(X, viola).
+X = osel.
+
+?- plays(martynka, Instrument).
+Instrument = violin.
+
+?- quartet(martynka, osel, kozel, mishka).
+true.
+
+?- quartet_members(Musicians).
+Musicians = [_].
+/*
+% База данных с информацией о возрасте и поле людей
+age(boris, 18).
+age(andrey, 17).
+age(mikhail, 18).
+age(anna, 18).
+age(yulia, 17).
+
+male(andrey).
+male(boris).
+male(mikhail).
+female(anna).
+female(yulia).
+
+% Правило для определения того, кто подлежит призыву
+eligible_for_draft(Person) :-
+male(Person),
+age(Person, Age),
+Age >= 18.
+
+% Правило для определения тех, кто не подлежит призыву
+not_eligible_for_draft(Person) :-
+\+ eligible_for_draft(Person).
+
+/*result
+?- eligible_for_draft(X).
+X = boris ;
+X = mikhail.
+
+?- eligible_for_draft(anna).
+false.
+*/
+% Определение пола
+male(petr).
+male(viktor).
+male(andrey).
+
+female(ekaterina).
+female(julia).
+female(maria).
+female(anna).
+
+% Родственные связи
+mother(ekaterina, julia).
+mother(ekaterina, maria).
+mother(anna, ekaterina).
+father(petr, julia).
+father(viktor, petr).
+father(andrey, ekaterina).
+
+% Правила для определения родственных связей
+
+% Дед
+grandfather(X, Y) :- father(X, Z), parent(Z, Y).
+
+% Бабушка
+grandmother(X, Y) :- mother(X, Z), parent(Z, Y).
+
+% Внук
+grandson(Y, X) :- grandfather(X, Y), male(Y).
+
+% Внучка
+granddaughter(Y, X) :- grandmother(X, Y), female(Y).
+
+% Тетя
+aunt(X, Y) :- sister(X, Z), parent(Z, Y).
+sister(X, Y) :- mother(M, X), mother(M, Y), female(X), X \= Y.
+
+% Дядя
+uncle(X, Y) :- brother(X, Z), parent(Z, Y).
+brother(X, Y) :- father(F, X), father(F, Y), male(X), X \= Y.
+
+% Обобщенное правило для родителя
+parent(X, Y) :- mother(X, Y); father(X, Y).
+
+/*result
+?- mother(ekaterina, Child), father(petr, Child).
+Child = julia ;
+false.
+
+?- grandfather(X, julia).
+X = viktor ;
+X = andrey ;
+false.
+
+?- grandmother(X, julia).
+X = anna ;
+false.
+*/
+% Тип животного
+animal(dog).
+animal(cat).
+animal(horse).
+
+% Индивидуальные животные
+dog(resvyi).
+dog(rex).
+cat(belka).
+horse(bystraja).
+
+% Цвет животных
+color(resvyi, black).
+color(belka, white).
+color(rex, red).
+color(bystraja, white).
+
+% Владельцы
+owner(tom, Animal) :- dog(Animal), color(Animal, Color), Color \= black.
+owner(kate, Animal) :- (color(Animal, black); horse(Animal)).
+
+% Домашнее животное
+domestic_animal(Animal) :- (dog(Animal); cat(Animal)).
+
+% Все животные
+all_animals(Animal) :- animal(Animal); domestic_animal(Animal).
+
+/*result
+?- all_animals(Animal).
+Animal = dog ;
+Animal = cat ;
+Animal = horse ;
+Animal = resvyi ;
+Animal = rex ;
+Animal = belka.
+
+?- domestic_animal(Animal).
+Animal = resvyi ;
+Animal = rex ;
+Animal = belka.
+
+?- owner(tom, Animal).
+Animal = rex.
+
+?- owner(kate, Animal).
+Animal = resvyi ;
+Animal = bystraja.
+
+?- color(Animal, white).
+Animal = belka ;
+Animal = bystraja.
+
+?- all_animals(Animal), not(domestic_animal(Animal)).
+Animal = dog ;
+Animal = cat ;
+Animal = horse ;
+false.
+
+*/
+% Типы животных
+cat(muska).
+cat(strelka).
+cat(murka).
+dog(reks).
+dog(druzhok).
+dog(muhtar).
+
+% Цвета животных
+color(muska, brown).
+color(strelka, black).
+color(murka, red).
+color(druzhok, red).
+color(muhtar, white).
+color(reks, spotted).
+
+% Владельцы
+owner(anatoly, Animal) :- (cat(Animal), color(Animal, black)); (cat(Animal), color(Animal, brown)).
+owner(nickolay, Animal) :- dog(Animal), color(Animal, Color), Color \= white, \+ owner(anatoly, Animal).
+owner(ivan, murka) :- \+ owner(nickolay, muska), \+ has_pedigree(muhtar).
+
+% Наличие родословной
+has_pedigree(Animal) :- owner(Owner, Animal), Owner = anatoly ; Owner = nickolay.
+
+% Животные без хозяина
+no_owner(Animal) :- (cat(Animal); dog(Animal)), \+ owner(_, Animal).
+
+/*result
+?- no_owner(Animal).
+Animal = murka ;
+Animal = muhtar.
+
+*/
+
+% Факты
+pretty(mary).
+kind(john).
+masculine(john).
+strong(john).
+
+% Правила
+happy(Person) :- likes_women(Person).
+likes_women(Person) :- woman_likes(Person, _).
+woman_likes(Man, Woman) :- likes_man(Woman, Man), kind(Man); kind(Man), strong(Man).
+likes_man(Woman, Man) :- pretty(Woman).
+
+/*result
+?- happy(john).
+true ;
+true.
+
+?- woman_likes(Man, _).
+Man = john ;
+Man = john.
+*/
+% Факты
+likes(birds, worms).
+likes(cats, fish).
+my_cat_is_my_friend.
+eats_all_it_likes(my_cat).
+
+% Правила
+eats(X, Y) :- likes(X, Y), eats_all_it_likes(X).
+
+% Запросы
+what_does_my_cat_eat(X) :-
+X = fish.
+
+/*result
+?- what_does_my_cat_eat(X).
+X = fish.
+*/
+% Определение четного числа
+even(N) :- 0 is N mod 2.
+
+% Определение нечетного числа
+odd(N) :- 1 is N mod 2.
+
+% Правило 3: Ни одно число не может быть одновременно четным и нечетным
+contradiction(N) :- even(N), odd(N).
+
+% Правило 4: Число нечетное, если следующее за ним четное
+next_is_even(N) :- M is N + 1, even(M).
+
+% Правило 5: Число, следующее за данным числом нечетное, если данное число четное
+next_is_odd_if_even(N) :- even(N), M is N + 1, odd(M).
+
+% Правило 5: Число, следующее за данным числом четное, если данное число нечетное
+next_is_even_if_odd(N) :- odd(N), M is N + 1, even(M).
+
+/*Примеры запросов:
+
+1. Проверяем, является ли число 4 четным
+2. Проверяем, является ли число 5 нечетным
+3. Проверяем противоречие (число не может быть одновременно четным и нечетным)
+4. Проверяем, является ли число 3 нечетным, если следующее за ним четное
+5. Проверяем, является ли число, следующее за 4, нечетным
+6. Проверяем, является ли число, следующее за 5, четным
+
+result
+?- even(4).
+true.
+
+?- odd(5).
+true.
+
+?- contradiction(4).
+false.
+
+?- next_is_even(3).
+true.
+
+?- next_is_odd_if_even(4).
+true.
+
+?- next_is_even_if_odd(5).
+true.
+*/
+% Время обеда
+lunch_time(Hour) :- between(12, 15, Hour).
+
+% Время сна
+sleep_time(Hour) :- between(22, 24, Hour); between(0, 7, Hour).
+
+% Время между 14 и 19 часами
+between_14_and_19(Hour) :- between(14, 19, Hour).
+
+/*result
+?- lunch_time(Hour).
+Hour = 12 ;
+Hour = 13 ;
+Hour = 14 ;
+Hour = 15.
+
+?- between_14_and_19(Hour).
+Hour = 14 ;
+Hour = 15 ;
+Hour = 16 ;
+Hour = 17 ;
+Hour = 18 ;
+Hour = 19.
+
+?- findall(Hour, sleep_time(Hour), Hours), length(Hours, Count).
+Hours = [22, 23, 24, 0, 1, 2, 3, 4, 5|...],
+Count = 11.
+
+*/
+%1
+square(X, S) :- S is X * X.
+cube(X, C) :- C is X * X * X.
+
+%2
+linear_function(A, B, X, Y) :- Y is A*X + B.
+
+%3
+triangle_perimeter(SideA, SideB, SideC, P) :- P is SideA + SideB + SideC.
+
+%4
+right_triangle_area(Cathet1, Cathet2, Area) :- Area is (Cathet1 * Cathet2) / 2.
+
+%5
+trapezoid_area(BaseA, BaseB, Height, Area) :- Area is ((BaseA + BaseB) / 2) * Height.
+
+%6
+hypotenuse_square(Cathet1, Cathet2, HypSquare) :- HypSquare is Cathet1^2 + Cathet2^2.
+
+%7
+rectangular_prism_volume(SideA, SideB, SideC, Volume) :- Volume is SideA * SideB * SideC.
+
+%8
+distance(V, T, D) :- D is V * T.
+
+%9
+last_digit(Number, Digit) :- Digit is Number mod 10.
+
+%10
+digits_of_two_digit_number(Number, Tens, Ones) :-
+Tens is Number // 10,
+Ones is Number mod 10.
+
+%11
+first_digit_of_three_digit_number(Number, Digit) :-
+Digit is Number // 100.
+
+%12
+sum_of_digits_of_three_digit_number(Number, Sum) :-
+First is Number // 100,
+Remaining is Number mod 100,
+Second is Remaining // 10,
+Third is Remaining mod 10,
+Sum is First + Second + Third.
+
+/*result
+?- square(5, S).
+S = 25.
+
+?- cube(3, C).
+C = 27.
+
+?- linear_function(2, 3, 4, Y).
+Y = 11.
+
+?- triangle_perimeter(3, 4, 5, P).
+P = 12.
+
+?- right_triangle_area(3, 4, Area).
+Area = 6.
+
+?- trapezoid_area(7, 9, 5, Area).
+Area = 40.
+
+?- hypotenuse_square(3, 4, HypSquare).
+HypSquare = 25.
+
+?- rectangular_prism_volume(3, 4, 5, Volume).
+Volume = 60.
+
+?- distance(50, 2, D).
+D = 100.
+
+?- last_digit(12345, Digit).
+Digit = 5.
+
+?- digits_of_two_digit_number(35, Tens, Ones).
+Tens = 3,
+Ones = 5.
+
+?- first_digit_of_three_digit_number(456, Digit).
+Digit = 4.
+
+?- sum_of_digits_of_three_digit_number(345, Sum).
+Sum = 12.
+
+*/
+%1
+least_of_two(A, B, A) :- A =< B.
+least_of_two(A, B, B) :- A > B.
+
+%A
+least_of_three(A, B, C, Min) :-
+least_of_two(A, B, MinAB),
+least_of_two(MinAB, C, Min).
+
+%B
+least_of_six(A, B, C, D, E, F, Min) :-
+least_of_three(A, B, C, MinABC),
+least_of_three(D, E, F, MinDEF),
+least_of_two(MinABC, MinDEF, Min).
+
+%2
+is_right_triangle(A, B, C) :-
+(A * A =:= B * B + C * C;
+B * B =:= A * A + C * C;
+C * C =:= A * A + B * B).
+
+%3
+is_triangle(A, B, C) :-
+A + B > C,
+A + C > B,
+B + C > A.
+
+%4
+absolute_value(X, X) :- X >= 0.
+absolute_value(X, Y) :- X < 0, Y is -X.
+
+%5
+function(X, Y) :-
+(X < -1 -> Y is X * X;
+X >= -1, X =< 1 -> Y is X + 1;
+X > 1 -> Y is X * X).
+
+/*result
+?- least_of_two(3, 5, Min).
+Min = 3 ;
+false.
+
+?- least_of_three(7, 2, 5, Min).
+Min = 2 ;
+false.
+
+?- least_of_six(1, 3, 5, 2, 8, 4, Min).
+Min = 1 ;
+false.
+
+?- is_right_triangle(3, 4, 5).
+true.
+
+?- is_triangle(5, 6, 10).
+true.
+
+?- absolute_value(-7, Abs).
+Abs = 7.
+
+?- function(0, Y).
+Y = 1.
+*/
