@@ -1,0 +1,7 @@
+001#Телефон Xiaomi Redmi Note 10#15000#xiaomi_redmim_note_10_description.txt
+002#Ноутбук ASUS TUF Gaming FX505DT#50000#asus_tuf_gaming_fx505dt_description.txt
+003#Клавиатура Logitech G413#7000#logitech_g413_description.txt
+004#Наушники Sony WH-1000XM4#25000#sony_wh-1000xm4_description.txt
+005#Монитор Samsung Odyssey G9#80000#samsung_odyssey_g9_description.txt
+006#Игровая мышь Razer DeathAdder V2#6000#razer_deathadder_v2_description.txt
+007#Смарт-часы Apple Watch Series 6#40000#apple_watch_series_6_description.txt

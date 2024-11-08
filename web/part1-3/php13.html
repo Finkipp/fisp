@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Графики и диаграммы на PHP</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body.light {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        body.dark {
+            background-color: #333333;
+            color: #ffffff;
+        }
+
+        .theme-toggle {
+            margin: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="light">
+    <button class="theme-toggle">Сменить тему</button>
+    <button id="shareBtn">Поделиться</button>
+    <div>
+        <canvas id="lineChart"></canvas>
+    </div>
+    <script>
+        // Темная и светлая тема
+        const themeToggleBtn = document.querySelector('.theme-toggle');
+        const body = document.body;
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (body.classList.contains('light')) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                themeToggleBtn.textContent = 'Сменить на светлую тему';
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                themeToggleBtn.textContent = 'Сменить на темную тему';
+            }
+        });
+
+        // Проверка наличия интернет-соединения
+        function updateOnlineStatus() {
+            const status = document.createElement('div');
+            status.id = 'status';
+            if (navigator.onLine) {
+                status.textContent = 'Вы в сети';
+                status.style.color = 'green';
+            } else {
+                status.textContent = 'Вы оффлайн';
+                status.style.color = 'red';
+            }
+            document.body.insertBefore(status, document.querySelector('canvas'));
+        }
+
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+
+        // Кнопка "Поделиться"
+        const shareBtn = document.getElementById('shareBtn');
+        shareBtn.addEventListener('click', () => {
+            const shareData = {
+                title: 'График роста пользователей',
+                text: 'Посмотрите на график роста пользователей по месяцам!',
+                url: window.location.href
+            };
+            try {
+                navigator.share(shareData).then(() => {
+                    console.log('Данные успешно поделены');
+                });
+            } catch (err) {
+                console.error('Ошибка при попытке поделиться:', err);
+            }
+        });
+
+        // Настройка графика
+        var data = {
+            labels: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь'],
+            datasets: [{
+                label: 'Количество пользователей',
+                data: [120, 150, 170, 200, 250, 300],
+                borderColor: '#4BC0C0',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 2
+            }]
+        };
+
+        var options = {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Рост пользователей по месяцам'
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+
+        var ctx = document.getElementById('lineChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    </script>
+</body>
+</html>
