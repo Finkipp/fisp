@@ -1,0 +1,7 @@
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp6\WindowsFormsApp6\obj\Debug\WindowsFormsApp6.csproj.AssemblyReference.cache
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp6\WindowsFormsApp6\obj\Debug\WindowsFormsApp6.Form1.resources
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp6\WindowsFormsApp6\obj\Debug\WindowsFormsApp6.Properties.Resources.resources
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp6\WindowsFormsApp6\obj\Debug\WindowsFormsApp6.csproj.GenerateResource.cache
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp6\WindowsFormsApp6\obj\Debug\WindowsFormsApp6.csproj.CoreCompileInputs.cache
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp6\WindowsFormsApp6\obj\Debug\WindowsFormsApp6.Guy.resources
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp6\WindowsFormsApp6\obj\Debug\Guy.resources

@@ -1,0 +1,10 @@
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp5\WindowsFormsApp5\obj\Debug\WindowsFormsApp5.csproj.AssemblyReference.cache
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp5\WindowsFormsApp5\obj\Debug\WindowsFormsApp5.Form1.resources
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp5\WindowsFormsApp5\obj\Debug\WindowsFormsApp5.Properties.Resources.resources
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp5\WindowsFormsApp5\obj\Debug\WindowsFormsApp5.csproj.GenerateResource.cache
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp5\WindowsFormsApp5\obj\Debug\WindowsFormsApp5.csproj.CoreCompileInputs.cache
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp5\WindowsFormsApp5\bin\Debug\WindowsFormsApp5.exe.config
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp5\WindowsFormsApp5\bin\Debug\WindowsFormsApp5.exe
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp5\WindowsFormsApp5\bin\Debug\WindowsFormsApp5.pdb
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp5\WindowsFormsApp5\obj\Debug\WindowsFormsApp5.exe
+\\192.168.3.250\Veda\4 Курс\ИСП 41-9\Логов\Пивоваров\WindowsFormsApp5\WindowsFormsApp5\obj\Debug\WindowsFormsApp5.pdb
